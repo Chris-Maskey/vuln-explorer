@@ -1,0 +1,5 @@
+{
+  "name": "CVE Vulnerability Explorer",
+  "description": "Query OSV.dev and deps.dev APIs to retrieve detailed vulnerability information, affected packages, and version ranges for a given CVE.",
+  "requestFramePermissions": []
+}
