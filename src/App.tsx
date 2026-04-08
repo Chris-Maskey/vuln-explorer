@@ -5,6 +5,7 @@ import {ErrorBanner, InfoBanner, PartialBanner} from './vulnerability/components
 import {LoadingSkeleton} from './vulnerability/components/LoadingSkeleton.tsx';
 import {OverviewCard} from './vulnerability/components/OverviewCard.tsx';
 import {AffectedPackagesTable} from './vulnerability/components/AffectedPackagesTable.tsx';
+import {RecentSearchesPanel} from './vulnerability/components/RecentSearchesPanel.tsx';
 
 const fadeUp = {
   initial: {opacity: 0, y: 12},
@@ -13,7 +14,8 @@ const fadeUp = {
 };
 
 export default function App() {
-  const {cveId, setCveId, lookup, isBusy, buttonLabel, handleSearch} = useVulnerabilityLookup();
+  const {cveId, setCveId, lookup, isBusy, buttonLabel, handleSearch, recentSearches, runLookup} =
+    useVulnerabilityLookup();
 
   const osvData = lookup.osvData;
   const depsData = lookup.depsData;
@@ -64,9 +66,15 @@ export default function App() {
               animate={{opacity: 1}}
               exit={{opacity: 0}}
               transition={{duration: 0.2}}
-              className="h-64 flex flex-col items-center justify-center border border-[#141414] border-dashed opacity-40"
             >
-              <p className="font-mono text-sm uppercase tracking-widest">Awaiting Query Input</p>
+              <RecentSearchesPanel
+                searches={recentSearches}
+                onSelect={(id) => void runLookup(id)}
+                currentId={lookup.queryId}
+              />
+              <div className="h-64 flex flex-col items-center justify-center border border-[#141414] border-dashed opacity-40">
+                <p className="font-mono text-sm uppercase tracking-widest">Awaiting Query Input</p>
+              </div>
             </motion.div>
           )}
 
@@ -117,6 +125,12 @@ export default function App() {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              <RecentSearchesPanel
+                searches={recentSearches}
+                onSelect={(id) => void runLookup(id)}
+                currentId={lookup.queryId}
+              />
 
               <OverviewCard osvData={osvData} depsData={depsData} />
 
