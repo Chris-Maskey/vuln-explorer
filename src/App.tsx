@@ -84,7 +84,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-6">
           <div>
             <h1 className="font-serif italic text-3xl md:text-4xl tracking-tight">
-              Vulnerability Explorer
+              Dep.Sentry
             </h1>
           </div>
           {ModeSwitch}
