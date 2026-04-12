@@ -126,7 +126,7 @@ export default function App() {
                     CVE Lookup
                   </h2>
                   <p className="font-mono text-xs uppercase tracking-widest opacity-50">
-                    Look up a vulnerability by CVE ID using OSV.dev and deps.dev
+                    Look up a vulnerability by CVE ID
                   </p>
                 </div>
                 <div className="flex flex-wrap md:flex-nowrap items-center gap-4 mt-6">
