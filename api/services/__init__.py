@@ -1,3 +1,3 @@
-from api.services.cache import CacheService
+from services.cache import CacheService
 
 __all__ = ["CacheService"]

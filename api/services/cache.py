@@ -1,7 +1,7 @@
 import json
 import redis.asyncio as redis
 from typing import Optional
-from api.config import settings
+from config import settings
 
 
 class CacheService:
