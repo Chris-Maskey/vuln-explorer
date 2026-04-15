@@ -55,7 +55,7 @@ async def query_batch(request: BatchQueryRequest):
 
 @router.get("/advisories/{advisory_id}")
 async def get_advisory(advisory_id: str):
-    """Get deps.dev advisory - checks cache first. Returns empty object if unavailable."""
+    """Get deps.dev advisory - checks cache first."""
     cache_key = f"depsdev:advisory:{advisory_id}"
     cached = await cache.get(cache_key)
     if cached:
@@ -68,4 +68,4 @@ async def get_advisory(advisory_id: str):
             return result
     except Exception:
         pass
-    return {"advisoryKey": {"id": advisory_id}}
+    return {"status": "unavailable"}
