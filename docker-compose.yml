@@ -21,7 +21,7 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379
       - OSV_API_URL=https://api.osv.dev/v1
-      - DEPSDEV_API_URL=https://public.deps.dev/api/v3
+      - DEPSDEV_API_URL=https://api.deps.dev/v3
     depends_on:
       - redis
 

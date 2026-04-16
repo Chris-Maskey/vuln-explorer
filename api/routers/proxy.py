@@ -1,9 +1,12 @@
 import hashlib
+import logging
 from fastapi import APIRouter, HTTPException
 from typing import Dict, Any, List
 from pydantic import BaseModel
 from services.cache import CacheService
 from services.upstream import UpstreamService
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1", tags=["proxy"])
 cache = CacheService()
@@ -30,7 +33,7 @@ async def get_vuln(cve_id: str):
     cached = await cache.get(cache_key)
     if cached:
         return cached
-    
+
     result = await upstream.query_vuln(cve_id)
     if result:
         await cache.set(cache_key, result)
@@ -45,7 +48,7 @@ async def query_batch(request: BatchQueryRequest):
     cached = await cache.get(cache_key)
     if cached:
         return cached
-    
+
     result = await upstream.querybatch(request.queries)
     if result:
         await cache.set(cache_key, result)
@@ -59,13 +62,16 @@ async def get_advisory(advisory_id: str):
     cache_key = f"depsdev:advisory:{advisory_id}"
     cached = await cache.get(cache_key)
     if cached:
+        print("Cache hit for advisory:", advisory_id)
         return cached
-    
+
     try:
         result = await upstream.get_advisory(advisory_id)
+        logging.info(result)
         if result:
             await cache.set(cache_key, result)
             return result
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Error fetching advisory {advisory_id}: {type(e).__name__}: {e}")
     return {"status": "unavailable"}
+
